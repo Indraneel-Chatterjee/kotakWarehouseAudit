@@ -676,8 +676,8 @@ async function fillFormAnswers(doc) {
   ];
 
   const requiredObject = await objectGenerator(values);
+  console.log(requiredObject);
 
-  console.log(JSON.stringify(requiredObject));
   body.replaceText("<<" + TIMESTAMP + ">>", timestamp + " ");
   body.replaceText("<<" + AUDIT_DATE + ">>", auditDate + " ");
   body.replaceText("<<" + AUDITOR_NAME + ">>", auditorName + " ");
