@@ -1,6 +1,6 @@
-const WAREHOUSE_SPREADSHEET_NAME = "Warehouse Sheets"
-const WAREHOUSE_SPREADSHEET_ID = "1-ClAJVunzsbSPwrEQXuI-VVrjsKjFFGhBRSN-FJkRK8"
-const WAREHOUSE_DETAILS_FOLDER_ID = "1x7NZ9G9WaBq4ntGvkIRrWf1p4mDDWn1p"
+const WAREHOUSE_SPREADSHEET_NAME = "Warehouse Sheets";
+const WAREHOUSE_SPREADSHEET_ID = "1-ClAJVunzsbSPwrEQXuI-VVrjsKjFFGhBRSN-FJkRK8";
+const WAREHOUSE_DETAILS_FOLDER_ID = "1x7NZ9G9WaBq4ntGvkIRrWf1p4mDDWn1p";
 const WAREHOUSE_DESTINATION_FILE = "warehouse_details.json";
 const WAREHOUSE_CODE_COLUMN_INDEX = 0;
 const WAREHOUSE_NAME_COLUMN_INDEX = 1;
@@ -12,14 +12,16 @@ const WAREHOUSE_CM_NAME = 6;
 
 // This function fetches warehouse details from the Google sheet and saves it to a json file in the warehouse details folder.
 async function fetchWarehouseDetails() {
-  const warehouseSpreadsheet = SpreadsheetApp.openById(WAREHOUSE_SPREADSHEET_ID)
+  const warehouseSpreadsheet = SpreadsheetApp.openById(
+    WAREHOUSE_SPREADSHEET_ID
+  );
 
   const dataRange = warehouseSpreadsheet.getDataRange();
   const data = dataRange.getValues();
   const warehouseDetails = {};
 
   // Traversing the sheets and storing warehouse name and location from it in warehouseDetails object.
-   for (let i = 1; i < data.length; i++) { 
+  for (let i = 1; i < data.length; i++) {
     const warehouseCode = data[i][WAREHOUSE_CODE_COLUMN_INDEX];
     const warehouseName = data[i][WAREHOUSE_NAME_COLUMN_INDEX];
     const warehouseAddress = data[i][WAREHOUSE_ADDRESS_COLUMN_INDEX];
@@ -31,12 +33,12 @@ async function fetchWarehouseDetails() {
     // Storing the details for warehouses uniquely.
     if (!warehouseDetails.hasOwnProperty(warehouseCode)) {
       warehouseDetails[warehouseCode] = {
-      name: warehouseName,
-      address: warehouseAddress,
-      location: warehouseLocation,
-      state: warehouseState,
-      region: warehouseRegion,
-      cmName: warehousecmName
+        name: warehouseName,
+        address: warehouseAddress,
+        location: warehouseLocation,
+        state: warehouseState,
+        region: warehouseRegion,
+        cmName: warehousecmName,
       };
     }
   }
@@ -50,8 +52,12 @@ async function saveWarehouseDetailsToFile(warehouseDetails) {
   const folder = DriveApp.getFolderById(WAREHOUSE_DETAILS_FOLDER_ID);
   const jsonData = JSON.stringify(warehouseDetails);
 
-  await deleteFilesIfAlreadyPresent(folder, WAREHOUSE_DESTINATION_FILE);  // Delete any redudant warehouse_details file.
-  const file = folder.createFile(WAREHOUSE_DESTINATION_FILE, jsonData, MimeType.PLAIN_TEXT);
+  await deleteFilesIfAlreadyPresent(folder, WAREHOUSE_DESTINATION_FILE); // Delete any redudant warehouse_details file.
+  const file = folder.createFile(
+    WAREHOUSE_DESTINATION_FILE,
+    jsonData,
+    MimeType.PLAIN_TEXT
+  );
 
   console.log("Warehouse details saved to file:", file.getName());
 }
@@ -62,7 +68,10 @@ async function updateWarehouseDetails(body, warehouseDetails, code) {
 
   // Setting warehouse name and address from warehouseDetails object
   body.replaceText("<<" + WAREHOUSE_NAME + ">>", warehouseDetails[code].name);
-  body.replaceText("<<" + WAREHOUSE_ADDRESS + ">>", warehouseDetails[code].address);
+  body.replaceText(
+    "<<" + WAREHOUSE_ADDRESS + ">>",
+    warehouseDetails[code].address
+  );
 }
 
 // This function loads the warehouse details from a json file stored in warehouse details folder where the warehouse sheets is stored (in GDrive).

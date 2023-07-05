@@ -1,4 +1,4 @@
-const PDF_FOLDER_ID = "1eb2PDOWZpJ6lg5rnC10UU7gzUn6B2hbV" //June
+const PDF_FOLDER_ID = "1eb2PDOWZpJ6lg5rnC10UU7gzUn6B2hbV"; //June
 // 1F9AvZ1zeaKkfwATMGjcTwoARtd1FSs6o -> MAY
 let pdfFileLink;
 let newDocLink;
@@ -16,7 +16,7 @@ async function saveDocAsPDF(fileId) {
     const file = folder.createFile(pdfBlob);
 
     pdfFileLink = file.getUrl();
-    console.log("PDF " + file.getName() + " saved.")
+    console.log("PDF " + file.getName() + " saved.");
 
     doc.saveAndClose();
     newDocLink = doc.getUrl();
@@ -37,8 +37,7 @@ async function deleteFilesIfAlreadyPresent(folder, fileName) {
       file.setTrashed(true);
       console.log("Deleted duplicate file: " + file.getName());
     }
-  }
-  catch (error) {
+  } catch (error) {
     const e = "Error deleting old files. " + error;
     console.log(e);
     sendErrorEmail(e);
@@ -48,7 +47,7 @@ async function deleteFilesIfAlreadyPresent(folder, fileName) {
 async function deleteAllFilesInFolder(folderId) {
   var folder = DriveApp.getFolderById(folderId);
   var files = folder.getFiles();
-  
+
   while (files.hasNext()) {
     var file = files.next();
     DriveApp.getFileById(file.getId()).setTrashed(true);

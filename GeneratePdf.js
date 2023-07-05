@@ -10,9 +10,13 @@ async function updateDocToPdf(doc, inspRepoUrls, rowNumber) {
   } catch (error) {
     console.log("Error filling text data from response sheet.", error.stack);
     console.log(error.message);
-    if (error.message.includes('Address unavailable')) {
+    if (error.message.includes("Address unavailable")) {
       console.log("Address unavailable. Temporary Network Problem.");
-      sheet.getRange(rowNumber + 1, pdfStatusIndexNo + 1).setValue("PDF Not Generated. Temporary Network Problem. Please Try Again."); 
+      sheet
+        .getRange(rowNumber + 1, pdfStatusIndexNo + 1)
+        .setValue(
+          "PDF Not Generated. Temporary Network Problem. Please Try Again."
+        );
     }
     sendErrorEmail(error.stack);
   }
@@ -20,7 +24,6 @@ async function updateDocToPdf(doc, inspRepoUrls, rowNumber) {
   try {
     console.log("Loading warehouse data.");
     warehouseDetails = await getWarehouseDetails(); // store warehouse details in object.
-
   } catch (error) {
     console.log("Error loading warehouse details", error.stack);
     sendErrorEmail(error.stack);
@@ -63,7 +66,10 @@ async function updateDocToPdf(doc, inspRepoUrls, rowNumber) {
 
   try {
     if (errorMailSent == false) {
-      await deleteFilesIfAlreadyPresent(DriveApp.getFolderById(UPDATED_DOCS_FOLDER_ID), doc.getName());
+      await deleteFilesIfAlreadyPresent(
+        DriveApp.getFolderById(UPDATED_DOCS_FOLDER_ID),
+        doc.getName()
+      );
       doc.saveAndClose(); // Save the document.
       const docFile = DriveApp.getFileById(doc.getId());
       const upDcsFolder = DriveApp.getFolderById(UPDATED_DOCS_FOLDER_ID);
@@ -71,11 +77,10 @@ async function updateDocToPdf(doc, inspRepoUrls, rowNumber) {
       newDoc.setName(doc.getName());
       const newDocId = newDoc.getId();
 
-      console.log("Saving doc as pdf.")
+      console.log("Saving doc as pdf.");
       await saveDocAsPDF(newDocId); // Convert the document to pdf.
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.log("Error saving Doc as Pdf", error.stack);
     sendErrorEmail(error.stack);
   }

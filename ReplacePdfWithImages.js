@@ -6,10 +6,13 @@ let imgBlobs = []; // For image blobs for each page in pdfs.
 // This function replaces pdf links with images of individual pages in pdf.
 async function replacePdfWithImages(body, inspRepoUrls) {
   const table = body.getTables()[INSPECTION_REPORT_TABLE_NUMBER]; // Getting table containing inspection report.
-  const cell = table.getCell(INSPECTION_REPORT_ROW_NUMBER, INSPECTION_REPORT_COLUMN_NUMBER); // Getting cell containing inspection report.
+  const cell = table.getCell(
+    INSPECTION_REPORT_ROW_NUMBER,
+    INSPECTION_REPORT_COLUMN_NUMBER
+  ); // Getting cell containing inspection report.
   const links = inspRepoUrls.split(",");
 
-  console.log("Clearing inspection cell.")
+  console.log("Clearing inspection cell.");
   cell.clear();
 
   try {
@@ -24,23 +27,38 @@ async function replacePdfWithImages(body, inspRepoUrls) {
       const file = DriveApp.getFileById(fileId);
       if (file.getMimeType() == PDF_MIME_TYPE) {
         await convertPDFToPNG_(file.getBlob());
-      }
-      else if (file.getMimeType() == "image/heic" || file.getMimeType() == "image/heif") {
-        const blob = UrlFetchApp.fetch(Drive.Files.get(fileId).thumbnailLink.replace(/=s.+/, "=s600")).getBlob();
+      } else if (
+        file.getMimeType() == "image/heic" ||
+        file.getMimeType() == "image/heif"
+      ) {
+        const blob = UrlFetchApp.fetch(
+          Drive.Files.get(fileId).thumbnailLink.replace(/=s.+/, "=s600")
+        ).getBlob();
         imgBlobs.push(blob);
-      }
-      else { // Deprecated
+      } else {
+        // Deprecated
         try {
-          imgBlobs.push(UrlFetchApp.fetch(Drive.Files.get(fileId).thumbnailLink.replace(/=s.+/, "=s600")).getBlob());
+          imgBlobs.push(
+            UrlFetchApp.fetch(
+              Drive.Files.get(fileId).thumbnailLink.replace(/=s.+/, "=s600")
+            ).getBlob()
+          );
         } catch (error) {
-          const e = "Error getting blob for image. Image id: " + fileId + "\n" + error.stack;
+          const e =
+            "Error getting blob for image. Image id: " +
+            fileId +
+            "\n" +
+            error.stack;
           console.log(e);
           sendErrorEmail(error.stack);
         }
       }
     }
   } catch (error) {
-    console.error("An error occurred while getting links for pdfs/images for Inspection Report Cell from the doc file:", error.stack);
+    console.error(
+      "An error occurred while getting links for pdfs/images for Inspection Report Cell from the doc file:",
+      error.stack
+    );
     sendErrorEmail(error.stack);
   }
 
@@ -58,9 +76,8 @@ async function replacePdfWithImages(body, inspRepoUrls) {
         image.setWidth(605);
       }
     }
-  }
-  catch (error) {
-    console.log("Error inserting image in doc.", error.stack)
+  } catch (error) {
+    console.log("Error inserting image in doc.", error.stack);
     sendErrorEmail(error.stack);
     return;
   }
@@ -87,7 +104,9 @@ async function convertPDFToPNG_(blob) {
       `sample${i + 1}.pdf`
     );
 
-    const id = DriveApp.getFolderById(TEMP_PDFS_FOLDER_ID).createFile(blob).getId(); // Create pdf file and store its id.
+    const id = DriveApp.getFolderById(TEMP_PDFS_FOLDER_ID)
+      .createFile(blob)
+      .getId(); // Create pdf file and store its id.
     Utilities.sleep(3200); // Allowing time for the thumbnail of the created file to be prepared.
     let link = Drive.Files.get(id, { fields: "thumbnailLink" }).thumbnailLink;
 
@@ -95,9 +114,7 @@ async function convertPDFToPNG_(blob) {
       Utilities.sleep(10000); // In case the thumbnail is not created. Wait for 10 more seconds (Worst Case).
       link = Drive.Files.get(id, { fields: "thumbnailLink" }).thumbnailLink;
       if (!link) {
-        throw new Error(
-          console.error("Image Conversion Failed", error.stack)
-        );
+        throw new Error(console.error("Image Conversion Failed", error.stack));
       }
     }
 

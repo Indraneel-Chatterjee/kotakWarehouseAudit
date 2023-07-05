@@ -7,13 +7,13 @@ async function generatePdfFromTemplate() {
     const sourceFolderFiles = sourceFolder.getFiles();
 
     while (sourceFolderFiles.hasNext()) {
-    const file = sourceFolderFiles.next();
-    console.log("Updating file: " + file.getName());
+      const file = sourceFolderFiles.next();
+      console.log("Updating file: " + file.getName());
 
-    updateDocToPdf(file);
-  }
+      updateDocToPdf(file);
+    }
   } catch (error) {
-    console.log("Error loading template.", error.stack)
+    console.log("Error loading template.", error.stack);
     sendErrorEmail(error.stack);
   }
 }

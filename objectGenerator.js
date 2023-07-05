@@ -8,7 +8,7 @@ async function objectGenerator(values) {
     MULTI_VALUE: "multiValue",
     DATE: "date",
     FLOAT: "float",
-    MULTI_VALUE_RADIO : "multiValueRadio"
+    MULTI_VALUE_RADIO: "multiValueRadio",
   };
   const dbArrOfObject = [
     {
@@ -410,8 +410,8 @@ async function objectGenerator(values) {
     },
     {
       name: "othersWarehouseType",
-      title: "If Others, please specify the warehouse type", 
-           value: "",
+      title: "If Others, please specify the warehouse type",
+      value: "",
       type: FIELD_DATA_TYPES.MULTI_VALUE,
     },
     {
@@ -698,21 +698,21 @@ async function objectGenerator(values) {
       type: FIELD_DATA_TYPES.MULTI_TEXT,
     },
     {
-    name: "inspectionReportProofUrl",
-    title: "Inspection Report",
-    value: "",
-    type: FIELD_DATA_TYPES.STRING,
+      name: "inspectionReportProofUrl",
+      title: "Inspection Report",
+      value: "",
+      type: FIELD_DATA_TYPES.STRING,
     },
-  {
-    name: "inspectionReportUrl",
-    title: "PDF Link",
-    value: "",
-    type: FIELD_DATA_TYPES.STRING,
-  },
+    {
+      name: "inspectionReportUrl",
+      title: "PDF Link",
+      value: "",
+      type: FIELD_DATA_TYPES.STRING,
+    },
   ];
 
-  const arrObj = await values.map((val,index)=>{
-    return {...dbArrOfObject[index], value : val}
-  })
-  return arrObj
+  const arrObj = await values.map((val, index) => {
+    return { ...dbArrOfObject[index], value: val };
+  });
+  return arrObj;
 }

@@ -295,9 +295,11 @@ async function fillFormAnswers(rowNumber) {
   );
   const whrDetailsPhotoColumnNo = headerRowValues.indexOf(WHR_DETAILS_PHOTO);
   const discrepancyColumnNo = headerRowValues.indexOf(DISCREPANCY);
-  const inspectionReportColumnNo = headerRowValues.indexOf(INSPECTION_REPORT_COLUMN_NAME);
-  const pdfLinkColumnNo = headerRowValues.indexOf(PDF_LINK_COLUMN_NAME)
-  const triggerColumnNo = headerRowValues.indexOf(TRIGGER)
+  const inspectionReportColumnNo = headerRowValues.indexOf(
+    INSPECTION_REPORT_COLUMN_NAME
+  );
+  const pdfLinkColumnNo = headerRowValues.indexOf(PDF_LINK_COLUMN_NAME);
+  const triggerColumnNo = headerRowValues.indexOf(TRIGGER);
   let timestamp = sheetValues[rowNumber][timestampColumnNo];
 
   const dateObj = new Date(timestamp);
@@ -558,10 +560,11 @@ async function fillFormAnswers(rowNumber) {
   }
 
   const discrepancy = sheetValues[rowNumber][discrepancyColumnNo];
-  const uploadPhotoinspectionReport = sheetValues[rowNumber][inspectionReportColumnNo]
-  const pdfLink = sheetValues[rowNumber][pdfLinkColumnNo]
-  const trigger = sheetValues[rowNumber][triggerColumnNo]
-console.log(trigger)
+  const uploadPhotoinspectionReport =
+    sheetValues[rowNumber][inspectionReportColumnNo];
+  const pdfLink = sheetValues[rowNumber][pdfLinkColumnNo];
+  const trigger = sheetValues[rowNumber][triggerColumnNo];
+  console.log(trigger);
   let values = [
     timeForObj,
     auditDate,
@@ -678,14 +681,12 @@ console.log(trigger)
     whrDetailsPhoto,
     discrepancy,
     uploadPhotoinspectionReport,
-  pdfLink
+    pdfLink,
   ];
-
 
   const requiredArrOfObject = await objectGenerator(values);
   // console.log(requiredArrOfObject)
-  await objectToAzureEndPoint(requiredArrOfObject,rowNumber)
-    
+  await objectToAzureEndPoint(requiredArrOfObject, rowNumber);
 
   body.replaceText("<<" + TIMESTAMP + ">>", timestamp + " ");
   body.replaceText("<<" + AUDIT_DATE + ">>", auditDate + " ");
