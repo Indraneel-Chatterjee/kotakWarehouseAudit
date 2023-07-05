@@ -8,8 +8,9 @@ async function objectGenerator(values) {
     MULTI_VALUE: "multiValue",
     DATE: "date",
     FLOAT: "float",
+    MULTI_VALUE_RADIO : "multiValueRadio"
   };
-  const dbObject = [
+  const dbArrOfObject = [
     {
       name: "auditTime",
       title: "Timestamp",
@@ -696,11 +697,22 @@ async function objectGenerator(values) {
       value: "",
       type: FIELD_DATA_TYPES.MULTI_TEXT,
     },
+    {
+    name: "inspectionReportProofUrl",
+    title: "Inspection Report",
+    value: "",
+    type: FIELD_DATA_TYPES.STRING,
+    },
+  {
+    name: "inspectionReportUrl",
+    title: "PDF Link",
+    value: "",
+    type: FIELD_DATA_TYPES.STRING,
+  },
   ];
-  // console.log(keys.length, values.length)
-  const arrObject = await values.map((val, index) => {
-    dbObject[index].value = val;
-    return;
-  });
-  return dbObject;
+
+  const arrObj = await values.map((val,index)=>{
+    return {...dbArrOfObject[index], value : val}
+  })
+  return arrObj
 }
