@@ -9,7 +9,7 @@ const INFESTATION_DETERIORATION_REMARKS = "Infestation / Deterioration Noticed (
 const UPLOAD_PHOTO_INFESTATION_DETERIORATION = "Upload Photo - Infestation / Deterioration";
 const FUMIGATION_REQUIRED = "Fumigation Required";
 const FUMIGATION_REQUIRED_REMARKS = "Fumigation Required (Remarks)";
-const UPLOAD_PHOTO_FUMIGATION = "Upload Photo - Fumigation";
+const UPLOAD_PHOTO_FUMIGATION = "Upload Photo -  Fumigation";
 const DUNNAGE_AVAILABLE = "Dunnage Available";
 const DUNNAGE_AVAILABLE_REMARKS = "Dunnage Available (Remarks)";
 const UPLOAD_PHOTO_DUNNAGE = "Upload Photo - Dunnage Available";
@@ -115,3 +115,5 @@ const TIMESTAMP = "Timestamp";
 
 const WAREHOUSE_NAME = "Warehouse Name";
 const WAREHOUSE_ADDRESS = "Warehouse Address";
+
+const TRIGGER = "Trigger"
